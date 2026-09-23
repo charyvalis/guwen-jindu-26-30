@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>古文今讀 26–30 課　虛字整理與選擇題</title>
+<style>
+  :root {
+    --bg: #ffffff; --fg: #1f2a1f; --muted: #6b7280; --accent: #385723; --accent-bg: #e2efda;
+    --line: #a6a6a6; --row: #f7f7f7; --hl: #c00000; --blue: #ddebf7; --orange: #fce4d6;
+    --ok: #2e7d32; --ok-bg: #e3f2e1; --bad: #c62828; --bad-bg: #fdeaea;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #161a16; --fg: #e8ece8; --muted: #9aa39a; --accent: #a9d18e; --accent-bg: #253323;
+      --line: #4a544a; --row: #1e241e; --hl: #ff8a80; --blue: #1f3040; --orange: #40291f;
+      --ok: #81c784; --ok-bg: #1f3a21; --bad: #ef9a9a; --bad-bg: #3f2222;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font-family: "DFKai-SB", "BiauKai", "標楷體", "Noto Serif TC", "Songti TC", serif;
+    font-size: 17px; line-height: 1.7;
+  }
+  main { max-width: 860px; margin: 0 auto; padding: 20px 16px 60px; }
+  h1 { text-align: center; color: var(--accent); font-size: 1.9rem; margin: 8px 0 2px; }
+  .subtitle { text-align: center; font-size: 1.35rem; font-weight: bold; margin: 0 0 6px; }
+  .lessons-line, .legend { text-align: center; color: var(--muted); font-size: .85rem; margin: 2px 0; }
+  nav.toc { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 14px 0 6px; }
+  nav.toc a {
+    text-decoration: none; color: var(--accent); background: var(--accent-bg);
+    padding: 4px 12px; border-radius: 999px; font-size: .9rem;
+  }
+  h2 {
+    color: var(--accent); font-size: 1.45rem; margin: 28px 0 10px; padding-bottom: 2px;
+    border-bottom: 2px solid #548235; scroll-margin-top: 12px;
+  }
+  h3 { font-size: 1.1rem; margin: 16px 0 6px; }
+  h3.lesson { background: var(--accent-bg); color: var(--accent); padding: 4px 10px; border-radius: 4px; margin-top: 22px; }
+  h3.lesson small { font-weight: normal; color: var(--muted); font-size: .8rem; }
+  .tablewrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border: 1px solid var(--line); padding: 5px 10px; vertical-align: middle; }
+  table.meaning thead th { background: var(--accent-bg); text-align: center; font-size: .95rem; }
+  table.meaning.blue thead th { background: var(--blue); }
+  table.meaning.orange thead th { background: var(--orange); }
+  table.meaning tbody th { background: var(--row); width: 9.5em; text-align: center; font-size: .95rem; white-space: nowrap; }
+  .ex { font-size: .98rem; padding: 1px 0; }
+  .src { color: var(--muted); font-size: .75rem; margin-left: .3em; }
+  .hl { color: var(--hl); font-weight: bold; }
+  .note { font-size: .95rem; margin: 8px 0; }
+  .infoline { text-align: center; margin: 6px 0 10px; }
+  .printonly { display: none; }
+  .bar {
+    position: sticky; top: 0; z-index: 10; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px;
+    background: var(--bg); border-bottom: 1px solid var(--line); padding: 8px 0; margin: 10px 0 0;
+    font-family: system-ui, -apple-system, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif; font-size: .88rem;
+  }
+  .bar .modes { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .bar button { font: inherit; color: var(--fg); background: var(--bg); border: 0; padding: 6px 12px; cursor: pointer; }
+  .bar .seg.on { background: var(--accent); color: var(--bg); }
+  .bar .stats { flex: 1 1 auto; min-width: 9em; }
+  .bar .acts { display: inline-flex; gap: 6px; }
+  .bar .act { border: 1px solid var(--line); border-radius: 8px; }
+  .bar .act#submit { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .bar button:focus-visible, button.opt:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  button.opt {
+    width: 100%; text-align: left; font: inherit; color: inherit; background: transparent; cursor: pointer;
+    border: 1px solid transparent; border-radius: 8px; padding: 3px 8px; margin: 1px 0; line-height: 1.6;
+  }
+  button.opt:hover { background: var(--accent-bg); }
+  button.opt.sel { background: var(--accent-bg); border-color: var(--accent); }
+  button.opt.right { background: var(--ok-bg); border-color: var(--ok); }
+  button.opt.wrong { background: var(--bad-bg); border-color: var(--bad); }
+  button.opt .mark { margin-left: .4em; font-weight: bold; font-family: system-ui, sans-serif; }
+  button.opt.right .mark { color: var(--ok); }
+  button.opt.wrong .mark { color: var(--bad); }
+  li.q.done button.opt { cursor: default; }
+  li.q.done button.opt:hover:not(.right):not(.wrong) { background: transparent; }
+  .exp { margin: 4px 0 0 2.4em; padding: 6px 10px; border-radius: 8px; background: var(--row); font-size: .93rem; line-height: 1.6; }
+  .exp .res { margin-right: .5em; font-family: system-ui, -apple-system, "Noto Sans TC", sans-serif; }
+  .exp.ok .res { color: var(--ok); }
+  .exp.no .res { color: var(--bad); }
+  .sec-score { font-family: system-ui, -apple-system, "Noto Sans TC", sans-serif; font-size: .9rem; color: var(--muted); margin: 4px 0 0; }
+
+  .rule { font-weight: bold; margin: 8px 0; }
+  ol.qs { list-style: none; counter-reset: q; padding: 0; margin: 0; }
+  li.q { counter-increment: q; margin: 10px 0 14px; break-inside: avoid; page-break-inside: avoid; }
+  li.q .stem::before { content: "（　　）" counter(q) ". "; white-space: pre; }
+  li.q .stem { padding-left: 0; }
+  ul.opts { list-style: none; margin: 2px 0 0 2.4em; padding: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: 1em; }
+  ul.opts.one { grid-template-columns: 1fr; }
+  ul.opts .lab { margin-right: .2em; }
+  u { text-underline-offset: 3px; }
+  details.answers { margin-top: 10px; border: 1px solid var(--line); border-radius: 6px; padding: 8px 12px; }
+  details.answers > summary { cursor: pointer; font-weight: bold; color: var(--accent); font-size: 1.05rem; padding: 4px 0; }
+  table.key thead th { background: var(--accent-bg); }
+  table.key td.c { text-align: center; white-space: nowrap; }
+  table.key td.ans { color: var(--hl); font-weight: bold; }
+  table.key { font-size: .95rem; }
+  footer { text-align: center; color: var(--muted); font-size: .8rem; margin-top: 36px; }
+  @media (max-width: 560px) {
+    body { font-size: 16px; }
+    ul.opts { grid-template-columns: 1fr; margin-left: 1.6em; }
+    .exp { margin-left: 1.6em; }
+    .bar .stats { flex-basis: 100%; order: 3; }
+    table.meaning tbody th { width: 6.5em; white-space: normal; }
+  }
+  @media print {
+    body { font-size: 12pt; }
+    main { max-width: none; padding: 0; }
+    nav.toc, .bar, .exp, .sec-score { display: none !important; }
+    .printonly { display: block; }
+    button.opt { border: 0; padding: 0; }
+    h2.newpage { page-break-before: always; }
+    h2, h3 { page-break-after: avoid; }
+    tr { page-break-inside: avoid; }
+    .tablewrap { overflow: visible; }
+    details.answers { border: none; padding: 0; }
+  }
+
+  .poem { text-align: center; margin: 8px 0 12px; font-size: 1.15rem; line-height: 1.9; }
+  .poem p { margin: 0; }
+  .poem .hl { font-size: 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<h1>古文今讀 第 26–30 課</h1>
+<p class="subtitle">虛字整理：然、之、使、苟、表、循、猶、乃、類、惟、阿、署、翟、予余吾、愚某僕</p>
+<p class="lessons-line">第26課 戴嵩畫牛　第27課 門可羅雀　第28課 柳季重信　第29課 荊人涉澭　第30課 粵令悅諂</p>
+<p class="legend">出處：課本標註＝課本旁註所列；原文＝課文內容；補充＝整理時另加的用法</p>
+<p class="legend">互動版（可直接點選作答）｜<a href="static.html">前往講義版（可列印）</a></p>
+<nav class="toc" aria-label="目錄">
+<a href="#handout">虛字整理</a><a href="#notes">各課重點</a><a href="#practice">虛字練習</a><a href="#lessonqs">課文選擇題</a><a href="#answers">參考答案</a>
+</nav>
+<div class="bar" id="bar" role="region" aria-label="作答控制"><div class="modes" role="group" aria-label="作答模式"><button type="button" id="m-practice" class="seg on" aria-pressed="true">即時對答案</button><button type="button" id="m-test" class="seg" aria-pressed="false">交卷模式</button></div><div class="stats" id="stats" aria-live="polite">已作答 0／41</div><div class="acts"><button type="button" id="submit" class="act" hidden>交卷</button><button type="button" id="reset" class="act">重新作答</button></div></div>
+<section id="handout">
+<h2>一、之、然（代詞、動詞，第26課為主）</h2>
+<div class="tablewrap"><table class="meaning"><thead><tr><th>意義（詞性）</th><th>例句（出處）</th></tr></thead><tbody><tr><th scope="row">代詞，指代事、物</th><td><div class="ex">有一牧童見「<span class="hl">之</span>」（指戴嵩所畫的牛）<span class="src">（第26課，原文）</span></div><div class="ex">處士笑而然「<span class="hl">之</span>」（指牧童所說的話）<span class="src">（第26課，原文）</span></div></td></tr><tr><th scope="row">動詞，認為對、同意</th><td><div class="ex">處士笑而「<span class="hl">然</span>」之<span class="src">（第26課，原文，然＝認為對）</span></div></td></tr></tbody></table></div>
+<p class="note">「之」作代詞時，要依上下文判斷所指的人、事、物；「然」作動詞時＝認為……是對的、同意，與作連詞的「然而」（表轉折）不同，須依語境判斷。</p>
+<h2>二、使、苟（如果、假使；派遣，第28課為主）</h2>
+<div class="tablewrap"><table class="meaning blue"><thead><tr><th>意義（詞性）</th><th>例句（出處）</th></tr></thead><tbody><tr><th scope="row">連詞，如果、假使</th><td><div class="ex">「<span class="hl">使</span>」柳季云是，則請受之<span class="src">（第28課，注釋，使＝如果、假使）</span></div></td></tr><tr><th scope="row">動詞，派遣</th><td><div class="ex">魯君「<span class="hl">使</span>」柳季如齊<span class="src">（第28課，原文，使＝派遣）</span></div></td></tr><tr><th scope="row">苟＝使，如果（補充）</th><td><div class="ex">苟＝使＝若＝如，皆可作「如果」解（補充，各課通用）<span class="src">（補充）</span></div></td></tr></tbody></table></div>
+<p class="note">「使」作連詞＝如果，作動詞＝派遣，須依語境判斷；「苟」與作連詞的「使」意思相同，都表示假設語氣。</p>
+<h2>三、表、循、猶（做標記、依照沿著、仍然，第29課為主）</h2>
+<div class="tablewrap"><table class="meaning orange"><thead><tr><th>意義（詞性）</th><th>例句（出處）</th></tr></thead><tbody><tr><th scope="row">動詞，做標記</th><td><div class="ex">使人先「<span class="hl">表</span>」澭水<span class="src">（第29課，原文，表：做標記）</span></div></td></tr><tr><th scope="row">依照、沿著</th><td><div class="ex">「<span class="hl">循</span>」表而夜涉<span class="src">（第29課，原文）</span></div></td></tr><tr><th scope="row">仍然、還是（常作「尚猶」）</th><td><div class="ex">荊人「<span class="hl">尚猶</span>」循表而導之<span class="src">（第29課，原文）</span></div></td></tr></tbody></table></div>
+<p class="note">「表」在此作動詞（做標記），與名詞「儀表、外表」的「表」不同；「猶」＝尚且、仍然，常與「尚」連用成「尚猶」，加強語氣。</p>
+<h2>四、惟、類、乃、阿（只有、大致、才、迎合，第30課為主）</h2>
+<div class="tablewrap"><table class="meaning"><thead><tr><th>意義（詞性）</th><th>例句（出處）</th></tr></thead><tbody><tr><th scope="row">只有，副詞</th><td><div class="ex">「<span class="hl">惟</span>」我家老爺不然<span class="src">（第30課，原文）</span></div></td></tr><tr><th scope="row">大致、大多，副詞</th><td><div class="ex">世之居人上者，「<span class="hl">類</span>」皆喜諛<span class="src">（第30課，原文）</span></div></td></tr><tr><th scope="row">才，副詞</th><td><div class="ex">群下交口讚譽，令「<span class="hl">乃</span>」欣然<span class="src">（第30課，注釋，乃：才）</span></div></td></tr><tr><th scope="row">迎合、偏袒，動詞</th><td><div class="ex">一隸「<span class="hl">阿</span>」其意<span class="src">（第30課，注釋，阿：迎合、偏袒）</span></div></td></tr></tbody></table></div>
+<p class="note">「惟」＝只有，可與「唯」通用；「乃」在此作副詞「才」，另有「於是」之義，須依上下文判斷；「阿」讀作ㄜ，迎合、偏袒之意，與「阿姨」的「阿」讀音不同。</p>
+<h2>五、其他常見虛字：予・余・吾（我）、愚・某・僕（自謙我）、署、翟（多音字）</h2>
+<div class="tablewrap"><table class="meaning blue"><thead><tr><th>意義（詞性）</th><th>例句（出處）</th></tr></thead><tbody><tr><th scope="row">我，代詞（複習）</th><td><div class="ex">予＝余＝吾，皆為「我」的自稱代詞（各課通用，課本標註）<span class="src">（複習）</span></div></td></tr><tr><th scope="row">我，自謙代詞（複習）</th><td><div class="ex">愚＝某＝僕，皆為自謙的「我」（各課通用，課本標註）<span class="src">（複習）</span></div></td></tr><tr><th scope="row">署　ㄕㄨˋ，題寫、簽寫</th><td><div class="ex">翟公乃大「<span class="hl">署</span>」其門曰<span class="src">（第27課，原文，署：題寫）</span></div></td></tr><tr><th scope="row">署　ㄕㄨˇ，官吏辦公的地方（複習用法）</th><td><div class="ex">如：「官署」「公署」；另有「部署」「簽署」讀ㄕㄨˋ<span class="src">（補充）</span></div></td></tr><tr><th scope="row">翟　ㄉㄧˊ，姓氏</th><td><div class="ex">下邽「<span class="hl">翟</span>」公者<span class="src">（第27課，原文，翟：姓氏，讀ㄉㄧˊ）</span></div></td></tr></tbody></table></div>
+<p class="note">署、翟都是多音字：署讀ㄕㄨˇ指辦公處所，讀ㄕㄨˋ指題寫、布置；翟作姓氏讀ㄉㄧˊ，作一般名詞（雉雞）讀ㄉㄧˊ亦可，須依詞性與語境判斷讀音。</p>
+</section>
+<section id="notes">
+<h2 class="newpage">各課重點</h2>
+<h3 class="lesson">第26課　戴嵩畫牛<small>　《東坡志林》</small></h3>
+<div class="tablewrap"><table class="meaning "><thead><tr><th>詞語</th><th>意思</th></tr></thead><tbody><tr><th scope="row">蜀</th><td>四川省的簡稱</td></tr><tr><th scope="row">處士</th><td>稱有才學而隱居沒做官的人</td></tr><tr><th scope="row">戴嵩</th><td>唐代名畫家，尤其擅長畫牛</td></tr><tr><th scope="row">錦囊</th><td>錦緞做的袋子，古人用以裝詩稿或機密貴重的物品</td></tr><tr><th scope="row">拊掌</th><td>拍手</td></tr><tr><th scope="row">搐</th><td>抽縮，指夾著尾巴</td></tr><tr><th scope="row">掉</th><td>搖擺尾巴</td></tr><tr><th scope="row">謬</th><td>錯誤</td></tr><tr><th scope="row">然</th><td>認為對</td></tr></tbody></table></div>
+<p class="note">原文：蜀中有杜處士，好書畫，所寶以百數，有戴嵩牛一軸，尤所愛，錦囊玉軸，常以自隨。一日曝書畫，有一牧童見之，拊掌大笑，曰：「此畫鬥牛也，鬥牛力在角，尾搐入兩股間，今乃掉尾而鬥，謬矣！」處士笑而然之。古語有云：「耕當問奴，織當問婢。」不可改也。</p>
+<p class="note">牧童雖不識名畫，卻因常年觀察牛隻鬥角的實際情形，能一眼看出畫中錯誤，說明親身經驗有時比名氣更值得信賴。</p>
+<p class="note">成語「耕當問奴，織當問婢」：比喻做事應該請教內行、專業的人，正如「隔行如隔山，術業有專攻」。</p>
+<h3 class="lesson">第27課　門可羅雀<small>　《史記》</small></h3>
+<div class="tablewrap"><table class="meaning "><thead><tr><th>詞語</th><th>意思</th></tr></thead><tbody><tr><th scope="row">下邽</th><td>地名，在今陝西省</td></tr><tr><th scope="row">廷尉</th><td>掌管刑獄的官員</td></tr><tr><th scope="row">闐門</th><td>賓客滿門，闐：充滿</td></tr><tr><th scope="row">雀羅</th><td>捕鳥的網子</td></tr><tr><th scope="row">署</th><td>此處讀ㄕㄨˋ，題寫</td></tr><tr><th scope="row">交態</th><td>交情、情誼</td></tr></tbody></table></div>
+<p class="note">原文：下邽翟公者，始為廷尉，賓客闐門；及廢，門外可設雀羅。翟公復為廷尉，賓客欲往，翟公乃大署其門曰：「一死一生，乃知交情；一貧一富，乃知交態；一貴一賤，交情乃見。」</p>
+<p class="note">翟公兩度擔任廷尉，前後賓客態度判若兩人，正是「人情冷暖，世態炎涼」的寫照。</p>
+<p class="note">成語「門可羅雀」：形容門庭冷落，賓客稀少，與「賓客闐門」恰成強烈對比。</p>
+<h3 class="lesson">第28課　柳季重信<small>　《韓非子》（改寫）</small></h3>
+<div class="tablewrap"><table class="meaning "><thead><tr><th>詞語</th><th>意思</th></tr></thead><tbody><tr><th scope="row">岑鼎</th><td>魯國的寶鼎</td></tr><tr><th scope="row">使（連詞）</th><td>如果、假使</td></tr><tr><th scope="row">使（動詞）</th><td>派遣</td></tr><tr><th scope="row">柳季</th><td>魯國忠臣，以誠信聞名</td></tr><tr><th scope="row">破</th><td>毀壞</td></tr></tbody></table></div>
+<p class="note">原文：齊伐魯，索岑鼎。魯君欲以他鼎往，齊人曰：「使柳季云是，則請受之。」魯君使柳季如齊。柳季曰：「君以鼎為國，信者亦臣之國，今欲破臣之信，以全君之國，臣所難也。」魯君乃以真岑鼎往。</p>
+<p class="note">齊人不相信魯國獻上的鼎是真品，特別指定要柳季出面擔保才肯相信，可見柳季誠信之名遠播他國。</p>
+<p class="note">相關「重信守承諾」故事：1.柳季重信（本課）2.季札掛劍（後傳為重友誼、守信用及弔唁亡友的典範）3.曾子殺彘。</p>
+<p class="note">「問鼎」：比喻圖謀君位之意，後用以指覬覦王位，謀取政權；或指謀取最高榮譽、地位。</p>
+<h3 class="lesson">第29課　荊人涉澭<small>　《呂氏春秋》</small></h3>
+<div class="tablewrap"><table class="meaning "><thead><tr><th>詞語</th><th>意思</th></tr></thead><tbody><tr><th scope="row">荊</th><td>楚國的別名</td></tr><tr><th scope="row">襲</th><td>趁人不備而攻擊</td></tr><tr><th scope="row">表</th><td>做標記</td></tr><tr><th scope="row">益</th><td>同「溢」，漲水</td></tr><tr><th scope="row">導</th><td>渡水</td></tr><tr><th scope="row">涉</th><td>徒步渡水</td></tr><tr><th scope="row">向</th><td>從前、往昔</td></tr><tr><th scope="row">尚猶</th><td>仍舊</td></tr></tbody></table></div>
+<p class="note">原文：荊人欲襲宋，使人先表澭水。澭水暴益，荊人弗知，循表而夜涉，溺死者千有餘人，軍驚而壞都舍。向其先表之時，可導也，今水已變而益多矣，荊人尚猶循表而導之，此其所以敗也。</p>
+<p class="note">荊人按照舊有標記渡水，卻不知河水已經暴漲，標記早已失去作用，因此招致大敗。</p>
+<p class="note">成語「刻舟求劍」：比喻拘泥固執，不知變通（可複習同類寓言：鄭人買履、蠹魚蝕書）。</p>
+<h3 class="lesson">第30課　粵令悅諂<small>　明．劉元卿《應諧錄》</small></h3>
+<div class="tablewrap"><table class="meaning "><thead><tr><th>詞語</th><th>意思</th></tr></thead><tbody><tr><th scope="row">粵令</th><td>廣東縣令，粵是廣東省的別稱</td></tr><tr><th scope="row">諂</th><td>諂媚、阿諛</td></tr><tr><th scope="row">交口</th><td>眾口同聲、齊聲</td></tr><tr><th scope="row">乃</th><td>才</td></tr><tr><th scope="row">隸</th><td>衙役、差役</td></tr><tr><th scope="row">阿</th><td>迎合、偏袒</td></tr><tr><th scope="row">類</th><td>大致、大多</td></tr><tr><th scope="row">惟</th><td>只有</td></tr></tbody></table></div>
+<p class="note">原文：粵令性悅諂，每布一政，群下交口讚譽，令乃欣然。一隸阿其意，嘗於眾人前故作稱嘆曰：「世之居人上者，類皆喜諛，惟我家老爺不然。」令聞之，益喜，加賞。自是隸日益親昵，肆言不諱，而令猶不自知也。</p>
+<p class="note">差役表面上稱讚縣令「不喜歡別人奉承」，其實正是最露骨的奉承，形成強烈的反諷。</p>
+<p class="note">本文諷刺喜愛聽奉承話而被巧言蒙蔽卻不自知的人，正是「當局者迷，旁觀者清」的寫照。</p>
+<h3>字音辨析</h3><div class="tablewrap"><table class="meaning "><thead><tr><th>字</th><th>讀音</th><th>例詞（出處）</th></tr></thead><tbody><tr><th scope="row">戴</th><td>ㄉㄞˋ</td><td>戴嵩畫牛（第26課）</td></tr><tr><th scope="row">嵩</th><td>ㄙㄨㄥ</td><td>戴嵩（第26課）</td></tr><tr><th scope="row">拊</th><td>ㄈㄨˇ</td><td>拊掌大笑（第26課）</td></tr><tr><th scope="row">搐</th><td>ㄔㄨˋ</td><td>尾搐入兩股間（第26課）</td></tr><tr><th scope="row">謬</th><td>ㄇㄧㄡˋ</td><td>謬矣（第26課）</td></tr><tr><th scope="row">邽</th><td>ㄍㄨㄟ</td><td>下邽（第27課）</td></tr><tr><th scope="row">闐</th><td>ㄊㄧㄢˊ</td><td>賓客闐門（第27課）</td></tr><tr><th scope="row">翟</th><td>ㄉㄧˊ</td><td>翟公（第27課，姓氏）</td></tr><tr><th scope="row">岑</th><td>ㄘㄣˊ</td><td>岑鼎（第28課）</td></tr><tr><th scope="row">澭</th><td>ㄩㄥ</td><td>澭水（第29課）</td></tr><tr><th scope="row">涉</th><td>ㄕㄜˋ</td><td>循表而夜涉（第29課）</td></tr><tr><th scope="row">溺</th><td>ㄋㄧˋ</td><td>溺死者千有餘人（第29課）</td></tr><tr><th scope="row">諂</th><td>ㄔㄢˇ</td><td>粵令悅諂（第30課）</td></tr><tr><th scope="row">諛</th><td>ㄩˊ</td><td>類皆喜諛（第30課）</td></tr><tr><th scope="row">隸</th><td>ㄌㄧˋ</td><td>一隸阿其意（第30課）</td></tr></tbody></table></div>
+</section>
+<section id="practice">
+<h2 class="newpage">古文今讀 26–30 課　虛字練習</h2>
+<p class="infoline printonly">班級：＿＿＿＿　座號：＿＿＿＿　姓名：＿＿＿＿＿＿　　得分：＿＿＿＿</p>
+<p class="rule">選擇題（每題 4 分，共 64 分）。粗體加底線的字為題目所問的字。直接點選答案作答。</p>
+<h3 class="lesson">虛字練習（課文中的虛字）</h3>
+<ol class="qs">
+<li class="q" data-a="C" data-sec="v" data-pts="4"><div class="stem">「處士笑而<u><b>然</b></u>之」的「然」，意思是？</div><ul class="opts"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 然而<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 這樣<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 認為對<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 突然<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">然：認為對，處士認同牧童對畫中錯誤的說法。</span></div></li>
+<li class="q" data-a="B" data-sec="v" data-pts="4"><div class="stem">「有一牧童見<u><b>之</b></u>」的「之」，指的是？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 杜處士<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 戴嵩所畫的牛<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 錦囊<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 牧童自己<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">之：代詞，指戴嵩所畫、杜處士拿出來曬太陽的那幅鬥牛圖。</span></div></li>
+<li class="q" data-a="A" data-sec="v" data-pts="4"><div class="stem">「處士笑而然<u><b>之</b></u>」的「之」，指的是？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 牧童所說的話<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 那幅畫的畫軸<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 杜處士自己<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 那頭牛的尾巴<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">之：代詞，指牧童指出畫中錯誤的那番話。</span></div></li>
+<li class="q" data-a="B" data-sec="v" data-pts="4"><div class="stem">「使柳季云是，則請受之」的「使」，意思是？</div><ul class="opts"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 命令<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 如果、假使<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 使者<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 讓（他）去做<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">使：作連詞，如果、假使，是齊人提出的條件。</span></div></li>
+<li class="q" data-a="A" data-sec="v" data-pts="4"><div class="stem">「魯君使柳季如齊」的「使」，意思是？</div><ul class="opts"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 派遣<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 如果<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 假設<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 命令他人代理<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">使：作動詞，派遣，魯君派柳季前往齊國。</span></div></li>
+<li class="q" data-a="B" data-sec="v" data-pts="4"><div class="stem">「今欲破臣之信」的「破」，意思是？</div><ul class="opts"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 破產<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 毀壞<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 突破<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 破解<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">破：毀壞，柳季認為冒充真鼎等於毀壞自己一向誠信的名聲。</span></div></li>
+<li class="q" data-a="C" data-sec="v" data-pts="4"><div class="stem">「使人先表澭水」的「表」，意思是？</div><ul class="opts"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 手錶<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 表格<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 做標記<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 表示<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">表：做標記，荊人先在澭水做記號，以便日後渡河。</span></div></li>
+<li class="q" data-a="B" data-sec="v" data-pts="4"><div class="stem">「循表而夜涉」的「循」，意思是？</div><ul class="opts"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 遵循古法<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 依照、沿著<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 循環<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 勸說<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">循：依照、沿著，指荊人依照先前做的標記渡河。</span></div></li>
+<li class="q" data-a="C" data-sec="v" data-pts="4"><div class="stem">「荊人尚猶循表而導之」的「猶」，意思是？</div><ul class="opts"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 猶豫<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 好像<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 仍然、還是<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 責怪<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">猶（尚猶）：仍然、還是，強調荊人明知水已暴漲卻依舊照舊標記行動。</span></div></li>
+<li class="q" data-a="B" data-sec="v" data-pts="4"><div class="stem">「群下交口讚譽，令<u><b>乃</b></u>欣然」的「乃」，意思是？</div><ul class="opts"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 於是<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 才<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 竟然<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 你的<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">乃：才，屬下齊聲讚美，縣令才露出歡喜的神情。</span></div></li>
+<li class="q" data-a="C" data-sec="v" data-pts="4"><div class="stem">「世之居人上者，<u><b>類</b></u>皆喜諛」的「類」，意思是？</div><ul class="opts"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 種類<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 類似<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 大致、大多<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 人類<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">類：大致、大多，差役泛指一般身居上位的人大多喜歡奉承。</span></div></li>
+<li class="q" data-a="B" data-sec="v" data-pts="4"><div class="stem">「惟我家老爺不然」的「惟」，意思是？</div><ul class="opts"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 思考<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 只有<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 希望<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 雖然<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">惟：只有，差役藉此凸顯自家老爺（其實正相反）的「與眾不同」。</span></div></li>
+<li class="q" data-a="B" data-sec="v" data-pts="4"><div class="stem">「一隸<u><b>阿</b></u>其意」的「阿」，意思是？</div><ul class="opts"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 阿姨<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 迎合、偏袒<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 山坡<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 驚嘆詞<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">阿：迎合、偏袒，指差役刻意順著粵令喜歡奉承的心意行事。</span></div></li>
+<li class="q" data-a="B" data-sec="v" data-pts="4"><div class="stem">「翟公乃大<u><b>署</b></u>其門」的「署」，讀音與意思是？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> ㄕㄨˇ，官署<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> ㄕㄨˋ，題寫<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> ㄕㄨˇ，部署<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> ㄕㄨˋ，只是簽名而已<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">署：此處讀ㄕㄨˋ，題寫，翟公把感嘆的話大大地寫在門上。</span></div></li>
+<li class="q" data-a="B" data-sec="v" data-pts="4"><div class="stem">「予、余、吾」與「愚、某、僕」都可自稱「我」，兩組用法的差異是？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 前者自謙，後者高傲<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 前者一般自稱，後者為自謙用法<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 兩者完全相同，沒有差異<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 前者用於對長輩，後者用於平輩<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">予＝余＝吾是一般自稱「我」；愚＝某＝僕則是自謙的說法，語氣較為謙卑。</span></div></li>
+<li class="q" data-a="B" data-sec="v" data-pts="4"><div class="stem">「下邽<u><b>翟</b></u>公者」的「翟」，此處應讀作？</div><ul class="opts"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> ㄓㄞˊ<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> ㄉㄧˊ<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> ㄩˊ<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> ㄧㄠˋ<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">翟：作姓氏讀ㄉㄧˊ，翟公即本文的主角。</span></div></li>
+</ol>
+<p class="sec-score" data-sec="v"></p>
+<h3 class="lesson">成語、修辭與文學常識</h3>
+<ol class="qs" style="counter-reset: q 16">
+<li class="q" data-a="B" data-sec="c" data-pts="4"><div class="stem">成語「耕當問奴，織當問婢」比喻什麼？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 凡事都要親力親為<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 做事應請教內行、專業的人<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 不可輕易改變舊習俗<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 輕視勞動階層的人<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">比喻做事應該請教內行的人，術業有專攻，隔行如隔山。</span></div></li>
+<li class="q" data-a="A" data-sec="c" data-pts="4"><div class="stem">「一死一生，乃知交情；一貧一富，乃知交態」運用了什麼修辭？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 排比、映襯<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 誇飾、譬喻<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 頂真、類疊<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 借代、雙關<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">三句結構相同（排比），並以生死、貧富的對比映襯出交情的真假。</span></div></li>
+<li class="q" data-a="B" data-sec="c" data-pts="4"><div class="stem">成語「門可羅雀」的意思是？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 家中養了許多鳥雀<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 形容門庭冷落，賓客稀少<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 形容家道富裕興旺<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 比喻交友廣闊<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">門前冷清到可以張網捕雀，形容賓客稀少、乏人問津。</span></div></li>
+<li class="q" data-a="B" data-sec="c" data-pts="4"><div class="stem">「刻舟求劍」與本課「荊人涉澭」的共同寓意是？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 團結就是力量<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 拘泥舊法，不知變通<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 凡事應未雨綢繆<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 貪小便宜，因小失大<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">兩者都嘲諷不顧客觀情勢改變、仍死守舊法行事的人。</span></div></li>
+<li class="q" data-a="B" data-sec="c" data-pts="4"><div class="stem">差役稱讚粵令「不喜歡別人奉承」，這段話本身其實是什麼？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 真心誠意的讚美<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 最露骨的奉承，形成反諷<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 對縣令的批評<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 客觀公正的觀察<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">這句話表面否定奉承，實際上正是最巧妙的奉承，形成強烈反諷。</span></div></li>
+</ol>
+<p class="sec-score" data-sec="c"></p>
+</section>
+<section id="lessonqs">
+<h2 class="newpage">古文今讀 26–30 課　課文選擇題</h2>
+<p class="infoline printonly">班級：＿＿＿＿　座號：＿＿＿＿　姓名：＿＿＿＿＿＿　　得分：＿＿＿＿</p>
+<p class="rule">課文文意選擇題（每課 4 題，每題 5 分，共 100 分）。直接點選答案作答。</p>
+<h3 class="lesson">第26課　戴嵩畫牛<small>　《東坡志林》</small></h3>
+<ol class="qs">
+<li class="q" data-a="B" data-sec="l26" data-pts="5"><div class="stem">牧童看了〈鬥牛圖〉後大笑，主要原因是？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 覺得畫技太過拙劣<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 畫中鬥牛的姿態與真實情形不符<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 覺得畫中的牛太醜<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 想引起杜處士的注意<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">真正的鬥牛，力量集中在角，尾巴夾在兩腿間；畫中卻畫成搖尾而鬥，與事實不符。</span></div></li>
+<li class="q" data-a="C" data-sec="l26" data-pts="5"><div class="stem">「處士笑而然之」，「然」在此處表現出處士什麼樣的態度？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 生氣<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 懷疑<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 認同牧童的說法<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 不以為然<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">然：認為對，處士聽了牧童的話後，笑著表示認同。</span></div></li>
+<li class="q" data-a="B" data-sec="l26" data-pts="5"><div class="stem">本文藉由牧童指出名畫的錯誤，主要想告訴我們什麼道理？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 名畫必定完美無缺<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 實際經驗有時比名氣更值得信賴，凡事應虛心求教內行人<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 小孩子不該隨意批評大人的收藏<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 畫家的技巧根本不值一提<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">牧童雖不懂名畫，卻因長年觀察牛隻鬥角的實際情形，一眼看出畫中的錯誤。</span></div></li>
+<li class="q" data-a="B" data-sec="l26" data-pts="5"><div class="stem">「耕當問奴，織當問婢」這句話印證了文中什麼道理？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 做官的人什麼都懂<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 各行各業都有專精之人，遇不熟悉之事應請教內行人<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 農夫和織婢的地位崇高<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 讀書人不需要學習農事<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">這句古語與牧童指正名畫錯誤的故事互相呼應，強調術業有專攻。</span></div></li>
+</ol>
+<p class="sec-score" data-sec="l26"></p>
+<h3 class="lesson">第27課　門可羅雀<small>　《史記》</small></h3>
+<ol class="qs">
+<li class="q" data-a="B" data-sec="l27" data-pts="5"><div class="stem">翟公第一次擔任廷尉時，家門前的景象是？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 門可羅雀<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 賓客滿門<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 無人聞問<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 門庭冷落<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">文中說「賓客闐門」，闐即充滿，形容賓客絡繹不絕。</span></div></li>
+<li class="q" data-a="B" data-sec="l27" data-pts="5"><div class="stem">翟公被免職後，「門外可設雀羅」形容什麼景象？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 家中養了很多鳥<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 賓客稀少，門庭冷落<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 家道中落，被迫捕鳥維生<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 門前風景優美<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">門前冷清到可以張網捕雀，形容賓客稀少、乏人問津。</span></div></li>
+<li class="q" data-a="B" data-sec="l27" data-pts="5"><div class="stem">翟公在門上大書那段話，主要用意是什麼？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 炫耀自己東山再起<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 感嘆世態炎涼，人情冷暖因地位而異<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 警告賓客不得再上門<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 紀念曾經拜訪過的朋友<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">翟公藉自身兩度為官、賓客態度判若兩人的經歷，感嘆人情冷暖。</span></div></li>
+<li class="q" data-a="B" data-sec="l27" data-pts="5"><div class="stem">本文所呈現的人情冷暖，與下列哪一句意思最接近？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 患難見真情<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 人走茶涼<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 近朱者赤<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 大智若愚<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">「人走茶涼」形容人一旦失勢，原本熱絡的人際關係也隨之冷卻，與本文主旨相近。</span></div></li>
+</ol>
+<p class="sec-score" data-sec="l27"></p>
+<h3 class="lesson">第28課　柳季重信<small>　《韓非子》（改寫）</small></h3>
+<ol class="qs">
+<li class="q" data-a="B" data-sec="l28" data-pts="5"><div class="stem">根據本文，齊國向魯國索求什麼？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 土地<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 岑鼎<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 兵馬<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 柳季<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">文中開頭即言「齊伐魯，索岑鼎」，齊國要求魯國獻出岑鼎。</span></div></li>
+<li class="q" data-a="B" data-sec="l28" data-pts="5"><div class="stem">齊人為何堅持要柳季出面，才肯相信魯國獻上的鼎是真品？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 柳季是齊國人<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 柳季以誠信聞名，他的話最有公信力<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 柳季是魯國國君的親戚<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 柳季擅長辨識寶物真偽<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">齊人指名柳季擔保，正是因為柳季的誠信之名遠播他國。</span></div></li>
+<li class="q" data-a="B" data-sec="l28" data-pts="5"><div class="stem">柳季認為，如果自己替假鼎背書，等於？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 得罪齊侯<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 毀壞自己一向誠信的名聲<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 損害魯國的國力<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 違背君王的命令<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">柳季說「今欲破臣之信」，正是擔心因此毀壞自己的誠信之名。</span></div></li>
+<li class="q" data-a="A" data-sec="l28" data-pts="5"><div class="stem">本文最能呼應下列哪一句話？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 人而無信，不知其可也<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 水能載舟，亦能覆舟<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 近朱者赤，近墨者黑<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 欲速則不達<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">柳季寧可讓魯君獻出真鼎，也不願自己失信，正呼應「人而無信，不知其可也」。</span></div></li>
+</ol>
+<p class="sec-score" data-sec="l28"></p>
+<h3 class="lesson">第29課　荊人涉澭<small>　《呂氏春秋》</small></h3>
+<ol class="qs">
+<li class="q" data-a="B" data-sec="l29" data-pts="5"><div class="stem">荊人想要攻打宋國，事先做了什麼準備？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 訓練士兵游泳<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 派人在澭水做渡河標記<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 向宋國下戰帖<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 建造大量船隻<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">文中「使人先表澭水」，即先派人在河中做記號，以便日後渡河。</span></div></li>
+<li class="q" data-a="B" data-sec="l29" data-pts="5"><div class="stem">荊人渡河失敗的直接原因是？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 士兵不會游泳<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 河水暴漲，標記已不準確，卻仍依照舊標記渡河<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 宋國提前設下埋伏<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 當日天候不佳<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">澭水暴益（漲），荊人卻不知情，仍循著舊標記夜渡，因而大敗。</span></div></li>
+<li class="q" data-a="A" data-sec="l29" data-pts="5"><div class="stem">本文中「向其先表之時，可導也」的意思是？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 當初做標記時，依標記渡河是可行的<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 標記從一開始就是錯的<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 荊人根本不會辨認方向<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 當地居民都反對做標記<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">向：從前。這句話是說在最初做標記的當下，依標記渡水確實是可行的，只是後來水位已變。</span></div></li>
+<li class="q" data-a="A" data-sec="l29" data-pts="5"><div class="stem">本文的寓意與下列哪一則故事最相近？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 刻舟求劍<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 守株待兔<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 畫蛇添足<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 狐假虎威<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">兩者都嘲諷拘泥舊有的方法、不知隨情勢變化而變通的行為。</span></div></li>
+</ol>
+<p class="sec-score" data-sec="l29"></p>
+<h3 class="lesson">第30課　粵令悅諂<small>　明．劉元卿《應諧錄》</small></h3>
+<ol class="qs">
+<li class="q" data-a="B" data-sec="l30" data-pts="5"><div class="stem">粵令的個性是？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 剛正不阿<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 喜歡聽人奉承<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 清廉自持<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 沉默寡言<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">開頭即點明「粵令性悅諂」，喜好聽人阿諛奉承。</span></div></li>
+<li class="q" data-a="B" data-sec="l30" data-pts="5"><div class="stem">差役刻意在眾人面前稱讚粵令的話，真正目的是？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 提醒粵令改過<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 討好粵令，藉此得到賞賜<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 警告其他官員<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 諷刺粵令的施政<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">差役阿其意（迎合粵令心意），目的正是要博取歡心、換得賞賜。</span></div></li>
+<li class="q" data-a="A" data-sec="l30" data-pts="5"><div class="stem">差役說「世之居人上者，類皆喜諛，惟我家老爺不然」，這段話最大的諷刺之處在於？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 這句話本身就是一種奉承，粵令卻信以為真<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 差役其實在批評粵令<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 這句話完全符合事實<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 粵令根本沒聽懂這句話<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">表面上否定奉承，實際上正是最巧妙的奉承，形成強烈的反諷。</span></div></li>
+<li class="q" data-a="B" data-sec="l30" data-pts="5"><div class="stem">本文的寫作目的最可能是？</div><ul class="opts one"><li><button type="button" class="opt" data-k="A"><span class="lab">(A)</span> 歌頌粵令勤政愛民<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="B"><span class="lab">(B)</span> 諷刺喜愛奉承、容易被巧言蒙蔽而不自知的人<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="C"><span class="lab">(C)</span> 介紹廣東的地方風俗<span class="mark" aria-hidden="true"></span></button></li><li><button type="button" class="opt" data-k="D"><span class="lab">(D)</span> 說明差役工作的辛勞<span class="mark" aria-hidden="true"></span></button></li></ul><div class="exp" hidden><b class="res"></b><span class="et">全文透過粵令與差役的對話，諷刺愛聽奉承話、被蒙蔽卻不自知的人。</span></div></li>
+</ol>
+<p class="sec-score" data-sec="l30"></p>
+</section>
+<section id="answers">
+<h2 class="newpage">參考答案與解析</h2>
+<details class="answers"><summary>顯示參考答案與解析（老師用）</summary>
+<h3>壹、虛字練習</h3><div class="tablewrap"><table class="key"><thead><tr><th>題號</th><th>答案</th><th>解析</th></tr></thead><tbody>
+<tr><td class="c">1</td><td class="c ans">C</td><td>然：認為對，處士認同牧童對畫中錯誤的說法。</td></tr>
+<tr><td class="c">2</td><td class="c ans">B</td><td>之：代詞，指戴嵩所畫、杜處士拿出來曬太陽的那幅鬥牛圖。</td></tr>
+<tr><td class="c">3</td><td class="c ans">A</td><td>之：代詞，指牧童指出畫中錯誤的那番話。</td></tr>
+<tr><td class="c">4</td><td class="c ans">B</td><td>使：作連詞，如果、假使，是齊人提出的條件。</td></tr>
+<tr><td class="c">5</td><td class="c ans">A</td><td>使：作動詞，派遣，魯君派柳季前往齊國。</td></tr>
+<tr><td class="c">6</td><td class="c ans">B</td><td>破：毀壞，柳季認為冒充真鼎等於毀壞自己一向誠信的名聲。</td></tr>
+<tr><td class="c">7</td><td class="c ans">C</td><td>表：做標記，荊人先在澭水做記號，以便日後渡河。</td></tr>
+<tr><td class="c">8</td><td class="c ans">B</td><td>循：依照、沿著，指荊人依照先前做的標記渡河。</td></tr>
+<tr><td class="c">9</td><td class="c ans">C</td><td>猶（尚猶）：仍然、還是，強調荊人明知水已暴漲卻依舊照舊標記行動。</td></tr>
+<tr><td class="c">10</td><td class="c ans">B</td><td>乃：才，屬下齊聲讚美，縣令才露出歡喜的神情。</td></tr>
+<tr><td class="c">11</td><td class="c ans">C</td><td>類：大致、大多，差役泛指一般身居上位的人大多喜歡奉承。</td></tr>
+<tr><td class="c">12</td><td class="c ans">B</td><td>惟：只有，差役藉此凸顯自家老爺（其實正相反）的「與眾不同」。</td></tr>
+<tr><td class="c">13</td><td class="c ans">B</td><td>阿：迎合、偏袒，指差役刻意順著粵令喜歡奉承的心意行事。</td></tr>
+<tr><td class="c">14</td><td class="c ans">B</td><td>署：此處讀ㄕㄨˋ，題寫，翟公把感嘆的話大大地寫在門上。</td></tr>
+<tr><td class="c">15</td><td class="c ans">B</td><td>予＝余＝吾是一般自稱「我」；愚＝某＝僕則是自謙的說法，語氣較為謙卑。</td></tr>
+<tr><td class="c">16</td><td class="c ans">B</td><td>翟：作姓氏讀ㄉㄧˊ，翟公即本文的主角。</td></tr>
+</tbody></table></div>
+<h3>貳、成語、修辭與文學常識</h3><div class="tablewrap"><table class="key"><thead><tr><th>題號</th><th>答案</th><th>解析</th></tr></thead><tbody>
+<tr><td class="c">1</td><td class="c ans">B</td><td>比喻做事應該請教內行的人，術業有專攻，隔行如隔山。</td></tr>
+<tr><td class="c">2</td><td class="c ans">A</td><td>三句結構相同（排比），並以生死、貧富的對比映襯出交情的真假。</td></tr>
+<tr><td class="c">3</td><td class="c ans">B</td><td>門前冷清到可以張網捕雀，形容賓客稀少、乏人問津。</td></tr>
+<tr><td class="c">4</td><td class="c ans">B</td><td>兩者都嘲諷不顧客觀情勢改變、仍死守舊法行事的人。</td></tr>
+<tr><td class="c">5</td><td class="c ans">B</td><td>這句話表面否定奉承，實際上正是最巧妙的奉承，形成強烈反諷。</td></tr>
+</tbody></table></div>
+<h3>參、課文選擇題（題號：課次－題號）</h3><div class="tablewrap"><table class="key"><thead><tr><th>題號</th><th>答案</th><th>解析</th></tr></thead><tbody>
+<tr><td class="c">26－1</td><td class="c ans">B</td><td>真正的鬥牛，力量集中在角，尾巴夾在兩腿間；畫中卻畫成搖尾而鬥，與事實不符。</td></tr>
+<tr><td class="c">26－2</td><td class="c ans">C</td><td>然：認為對，處士聽了牧童的話後，笑著表示認同。</td></tr>
+<tr><td class="c">26－3</td><td class="c ans">B</td><td>牧童雖不懂名畫，卻因長年觀察牛隻鬥角的實際情形，一眼看出畫中的錯誤。</td></tr>
+<tr><td class="c">26－4</td><td class="c ans">B</td><td>這句古語與牧童指正名畫錯誤的故事互相呼應，強調術業有專攻。</td></tr>
+<tr><td class="c">27－1</td><td class="c ans">B</td><td>文中說「賓客闐門」，闐即充滿，形容賓客絡繹不絕。</td></tr>
+<tr><td class="c">27－2</td><td class="c ans">B</td><td>門前冷清到可以張網捕雀，形容賓客稀少、乏人問津。</td></tr>
+<tr><td class="c">27－3</td><td class="c ans">B</td><td>翟公藉自身兩度為官、賓客態度判若兩人的經歷，感嘆人情冷暖。</td></tr>
+<tr><td class="c">27－4</td><td class="c ans">B</td><td>「人走茶涼」形容人一旦失勢，原本熱絡的人際關係也隨之冷卻，與本文主旨相近。</td></tr>
+<tr><td class="c">28－1</td><td class="c ans">B</td><td>文中開頭即言「齊伐魯，索岑鼎」，齊國要求魯國獻出岑鼎。</td></tr>
+<tr><td class="c">28－2</td><td class="c ans">B</td><td>齊人指名柳季擔保，正是因為柳季的誠信之名遠播他國。</td></tr>
+<tr><td class="c">28－3</td><td class="c ans">B</td><td>柳季說「今欲破臣之信」，正是擔心因此毀壞自己的誠信之名。</td></tr>
+<tr><td class="c">28－4</td><td class="c ans">A</td><td>柳季寧可讓魯君獻出真鼎，也不願自己失信，正呼應「人而無信，不知其可也」。</td></tr>
+<tr><td class="c">29－1</td><td class="c ans">B</td><td>文中「使人先表澭水」，即先派人在河中做記號，以便日後渡河。</td></tr>
+<tr><td class="c">29－2</td><td class="c ans">B</td><td>澭水暴益（漲），荊人卻不知情，仍循著舊標記夜渡，因而大敗。</td></tr>
+<tr><td class="c">29－3</td><td class="c ans">A</td><td>向：從前。這句話是說在最初做標記的當下，依標記渡水確實是可行的，只是後來水位已變。</td></tr>
+<tr><td class="c">29－4</td><td class="c ans">A</td><td>兩者都嘲諷拘泥舊有的方法、不知隨情勢變化而變通的行為。</td></tr>
+<tr><td class="c">30－1</td><td class="c ans">B</td><td>開頭即點明「粵令性悅諂」，喜好聽人阿諛奉承。</td></tr>
+<tr><td class="c">30－2</td><td class="c ans">B</td><td>差役阿其意（迎合粵令心意），目的正是要博取歡心、換得賞賜。</td></tr>
+<tr><td class="c">30－3</td><td class="c ans">A</td><td>表面上否定奉承，實際上正是最巧妙的奉承，形成強烈的反諷。</td></tr>
+<tr><td class="c">30－4</td><td class="c ans">B</td><td>全文透過粵令與差役的對話，諷刺愛聽奉承話、被蒙蔽卻不自知的人。</td></tr>
+</tbody></table></div>
+</details>
+</section>
+<footer>古文今讀 26–30 課　虛字整理與選擇題</footer>
+</main>
+<script>
+
+(function () {
+  var qs = Array.prototype.slice.call(document.querySelectorAll('li.q'));
+  var mode = 'practice', submitted = false;
+  var $ = function (id) { return document.getElementById(id); };
+
+  function reveal(q) {
+    var chosen = q.getAttribute('data-chosen'), ans = q.getAttribute('data-a');
+    var exp = q.querySelector('.exp'), res = q.querySelector('.res');
+    q.classList.add('done');
+    Array.prototype.forEach.call(q.querySelectorAll('button.opt'), function (b) {
+      var k = b.getAttribute('data-k'), m = b.querySelector('.mark');
+      b.classList.remove('sel');
+      b.setAttribute('aria-disabled', 'true');
+      if (k === ans) { b.classList.add('right'); m.textContent = '✓ 正確答案'; }
+      else if (k === chosen) { b.classList.add('wrong'); m.textContent = '✗'; }
+    });
+    exp.hidden = false;
+    if (!chosen) { exp.className = 'exp no'; res.textContent = '未作答，正確答案是 ' + ans + '。'; }
+    else if (chosen === ans) { exp.className = 'exp ok'; res.textContent = '答對了！'; }
+    else { exp.className = 'exp no'; res.textContent = '答錯了，正確答案是 ' + ans + '。'; }
+  }
+
+  function stats() {
+    var answered = 0, correct = 0, secs = {};
+    qs.forEach(function (q) {
+      var s = q.getAttribute('data-sec'), pts = +q.getAttribute('data-pts');
+      secs[s] = secs[s] || { n: 0, a: 0, c: 0, pts: 0, score: 0 };
+      secs[s].n++;
+      var ch = q.getAttribute('data-chosen');
+      if (ch) { answered++; secs[s].a++; }
+      var revealed = q.classList.contains('done');
+      if (revealed && ch === q.getAttribute('data-a')) { correct++; secs[s].c++; secs[s].score += pts; }
+      secs[s].pts += pts;
+    });
+    var revealedAny = qs.some(function (q) { return q.classList.contains('done'); });
+    $('stats').textContent = '已作答 ' + answered + '／' + qs.length + (revealedAny ? '　答對 ' + correct : '');
+    Array.prototype.forEach.call(document.querySelectorAll('.sec-score'), function (el) {
+      var d = secs[el.getAttribute('data-sec')];
+      if (!d) return;
+      var txt = '本單元已作答 ' + d.a + '／' + d.n + ' 題';
+      var allRevealed = qs.filter(function (q) { return q.getAttribute('data-sec') === el.getAttribute('data-sec'); })
+        .every(function (q) { return q.classList.contains('done'); });
+      if (d.c > 0 || allRevealed || (mode === 'practice' && d.a > 0)) txt += '，答對 ' + d.c + ' 題，得分 ' + d.score + '／' + d.pts;
+      el.textContent = txt;
+    });
+  }
+
+  function reset() {
+    submitted = false;
+    qs.forEach(function (q) {
+      q.removeAttribute('data-chosen'); q.classList.remove('done');
+      q.querySelector('.exp').hidden = true;
+      Array.prototype.forEach.call(q.querySelectorAll('button.opt'), function (b) {
+        b.classList.remove('sel', 'right', 'wrong'); b.removeAttribute('aria-disabled');
+        b.querySelector('.mark').textContent = '';
+      });
+    });
+    stats();
+  }
+
+  function setMode(m) {
+    if (m === mode) return;
+    var any = qs.some(function (q) { return q.getAttribute('data-chosen'); });
+    if (any && !window.confirm('切換模式會清除目前的作答，要繼續嗎？')) return;
+    mode = m;
+    $('m-practice').classList.toggle('on', m === 'practice');
+    $('m-test').classList.toggle('on', m === 'test');
+    $('m-practice').setAttribute('aria-pressed', m === 'practice');
+    $('m-test').setAttribute('aria-pressed', m === 'test');
+    $('submit').hidden = m !== 'test';
+    reset();
+  }
+
+  qs.forEach(function (q) {
+    Array.prototype.forEach.call(q.querySelectorAll('button.opt'), function (b) {
+      b.addEventListener('click', function () {
+        if (q.classList.contains('done')) return;
+        q.setAttribute('data-chosen', b.getAttribute('data-k'));
+        if (mode === 'practice') { reveal(q); }
+        else {
+          Array.prototype.forEach.call(q.querySelectorAll('button.opt'), function (o) { o.classList.toggle('sel', o === b); });
+        }
+        stats();
+      });
+    });
+  });
+
+  $('m-practice').addEventListener('click', function () { setMode('practice'); });
+  $('m-test').addEventListener('click', function () { setMode('test'); });
+  $('reset').addEventListener('click', function () {
+    var any = qs.some(function (q) { return q.getAttribute('data-chosen'); });
+    if (!any || window.confirm('要清除目前的作答，重新開始嗎？')) reset();
+  });
+  $('submit').addEventListener('click', function () {
+    var left = qs.filter(function (q) { return !q.getAttribute('data-chosen'); }).length;
+    if (left > 0 && !window.confirm('還有 ' + left + ' 題沒作答，確定要交卷嗎？')) return;
+    submitted = true;
+    qs.forEach(function (q) { if (!q.classList.contains('done')) reveal(q); });
+    stats();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  stats();
+})();
+
+</script>
+</body>
+</html>
